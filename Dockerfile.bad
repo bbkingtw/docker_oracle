@@ -1,0 +1,27 @@
+FROM alexeiled/docker-oracle-xe-11g
+
+RUN curl -sL https://deb.nodesource.com/setup | sudo bash -
+RUN apt-get -y install nodejs
+
+RUN apt-get -y install python
+RUN apt-get -y install make
+RUN apt-get -y install g++
+
+RUN /u01/app/oracle/product/11.2.0/xe/bin/oracle_env.sh
+ENV LD_LIBRARY_PATH /u01/app/oracle/product/11.2.0/xe/lib
+
+ENV OCI_LIB_DIR=/u01/app/oracle/product/11.2.0/xe/lib
+ENV OCI_INC_DIR=/u01/app/oracle/product/11.2.0/xe/rdbms/public
+
+RUN npm install oracledb
+RUN npm install express
+RUN npm install optimist
+
+ADD start_db.sh /
+RUN chmod +x start_db.sh
+
+ADD server.js /
+ADD start_node.sh /
+RUN chmod +x start_node.sh
+
+#CMD /start_db.sh

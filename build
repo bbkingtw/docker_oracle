@@ -1,0 +1,2 @@
+docker rmi -f oracle-db
+docker build -t oracle-db .
